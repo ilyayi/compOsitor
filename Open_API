@@ -1,0 +1,28 @@
+First, import the necessary modules for using the OpenAI API, such as openai and requests.
+ 
+import openai
+import requests
+Next, set the API key for your OpenAI account and specify the GPT-3 model to use.
+
+openai.api_key = "YOUR_API_KEY"
+model = "text-davinci-002"
+
+Use the requests module to make a POST request to the OpenAI API with the specified model and the prompt text. Save the response data as a variable.
+ 
+prompt = "The sun was shining brightly on the grassy meadow. The birds were chirping and the flowers were blooming. Suddenly, a herd of sheep came into view."
+
+response = requests.post(
+    "https://api.openai.com/v1/completions",
+    json={
+        "model": model,
+        "prompt": prompt,
+        "max_tokens": 2048,
+        "temperature": 0.7,
+    },
+)
+Use the response data to extract the generated text from GPT-3.
+ 
+text = response.json()["choices"][0]["text"]
+print(text)
+
+This code will use GPT-3 to generate text based on the given prompt and print the generated text to the console. You can customize the prompt and the parameters of the API request to control the output of GPT-3
