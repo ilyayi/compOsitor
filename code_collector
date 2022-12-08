@@ -1,0 +1,24 @@
+import requests
+import pandas as pd
+
+eBay_response = requests.get('https://www.ebay.com/sch/i.html?_from=R40&_nkw=mountain+bike&_sacat=0')
+Amazon_response = requests.get('https://www.amazon.com/s?k=mountain+bike&ref=nb_sb_noss_2')
+
+from bs4 import BeautifulSoup
+
+eBay_soup = BeautifulSoup(eBay_response.text, 'html.parser')
+Amazon_soup = BeautifulSoup(Amazon_response.text, 'html.parser')
+
+eBay_prices = []
+Amazon_prices = []
+
+for price in eBay_soup.find_all('span', class_='s-item__price'):
+    eBay_prices.append(price.text)
+
+for price in Amazon_soup.find_all('span', class_='a-price'):
+    Amazon_prices.append(price.text)
+
+df = pd.DataFrame({'eBay': eBay_prices, 'Amazon': Amazon_prices})
+print(df)
+
+print(df.describe())
